@@ -18,16 +18,12 @@ const App = () => {
   //   }
   // }
 
-  const { loggedIn } = this.state;
+  // const { loggedIn } = this.state;
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {loggedIn ? (
-            <Redirect to="/transactions" />
-          ) : (
-            <Redirect to="/login" />
-          )}
+          {false ? <Redirect to="/transactions" /> : <Redirect to="/login" />}
         </Route>
         <Route exact path="/login" component={AuthPage}></Route>
         <Route exact path="/transactions" component={Transaction}></Route>
