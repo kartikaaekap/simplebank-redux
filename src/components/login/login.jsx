@@ -1,42 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form } from "react-bootstrap";
+import { login } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
-import { withRouter } from "react-router-dom";
 
-const Login = () => {
-  const [login, setLogin] = useState({});
+const Login = ({ history }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const openTransactionPage = () => {
-    // this.props.history.push("/transactions");
-    setLogin({
-      message: "Hello",
-    });
+  // const openTransactionPage = () => {
+  //   this.props.history.push("/transactions");
+  // };
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/transactions");
+    }
+  }, [history, userInfo]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(username, password));
   };
 
   return (
     <div className="base-container">
       <div className="header">Login</div>
+      {error && <h1>{error}</h1>}
+      {loading && <h1>Loading...</h1>}
       <div className="content">
         <div className="image">
           <img src={loginImg} alt="login" />
         </div>
-        <div className="form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input type="text" name="username" placeholder="username" />
+        <Form onSubmit={submitHandler} className="form">
+          <Form.Group controlId="username" className="form-group">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              name="username"
+              placeholder="username"
+            />
+          </Form.Group>
+          <Form.Group controlId="password" className="form-group">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+          </Form.Group>
+          <div className="footer">
+            <Button type="submit" variant="default" className="btn">
+              {/* <Link to="/transactions">Login</Link> */} Login
+            </Button>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" placeholder="password" />
-          </div>
-        </div>
-      </div>
-      <div className="footer">
-        <button type="button" className="btn" onClick={openTransactionPage}>
-          {/* <Link to="/transactions">Login</Link> */} Login
-        </button>
+        </Form>
       </div>
     </div>
   );
 };
 
-export default withRouter(Login);
+export default Login;
