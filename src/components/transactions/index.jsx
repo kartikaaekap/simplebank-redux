@@ -2,6 +2,8 @@ import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { Navbar, Container, Form, Button, Row, Col } from "react-bootstrap";
+import logoImg from "../../assets/simplebank.png";
+import userImg from "../../assets/user.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class Transactions extends React.Component {
@@ -13,9 +15,9 @@ class Transactions extends React.Component {
             <Navbar.Collapse>
               <Navbar.Brand>
                 <img
-                  src="../../assets/simplebank.png"
-                  width="30"
-                  height="30"
+                  src={logoImg}
+                  width="200"
+                  height="100"
                   className="d-inline-block align-top"
                   alt="logo"
                 />
@@ -23,7 +25,7 @@ class Transactions extends React.Component {
               <Navbar.Collapse className="justify-content-end">
                 <Navbar.Brand>
                   <img
-                    src="../../assets/user.png"
+                    src={userImg}
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
