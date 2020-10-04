@@ -35,7 +35,7 @@ export const login = (username, password) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_FAIL,
       // @TODO fix the error
-      payload: error.response,
+      payload: error.response.data.error_details,
     });
   }
 };
@@ -60,16 +60,11 @@ export const register = (name, password) => async (dispatch) => {
       payload: data.status,
     });
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data.status,
-    });
-
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
       // @TODO fix the error
-      payload: error.response,
+      payload: error.response.data.error_details,
     });
   }
 };

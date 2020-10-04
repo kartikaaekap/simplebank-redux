@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { register } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
+import { DELETE_REGISTER_STATUS } from "../../constants/userConstants";
 
 const MySwal = withReactContent(Swal);
 
@@ -18,7 +19,7 @@ const Register = ({ setLogginActive }) => {
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, status } = userRegister;
+  const { error, status } = userRegister;
 
   useEffect(() => {
     if (status === "success") {
@@ -29,10 +30,25 @@ const Register = ({ setLogginActive }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           setLogginActive();
+          dispatch({ type: DELETE_REGISTER_STATUS });
         }
       });
     }
-  }, [status, setLogginActive]);
+  }, [status, setLogginActive, dispatch]);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      MySwal.fire({
+        icon: "error",
+        title: error,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setUsername("");
+          setPassword("");
+        }
+      });
+    }
+  }, [error]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -42,8 +58,6 @@ const Register = ({ setLogginActive }) => {
   return (
     <div className="base-container">
       <div className="header">Register</div>
-      {error && <h1>{error}</h1>}
-      {loading && <h1>Loading...</h1>}
       <div className="content">
         <div className="image">
           <img src={loginImg} alt="login" />

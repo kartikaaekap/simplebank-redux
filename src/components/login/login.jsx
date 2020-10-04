@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { login } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
+
+const MySwal = withReactContent(Swal);
 
 const Login = ({ history }) => {
   const [username, setUsername] = useState("");
@@ -11,13 +15,27 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, token } = userLogin;
+  const { error, token } = userLogin;
 
   useEffect(() => {
     if (token) {
       history.push("/transactions");
     }
   }, [history, token]);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      MySwal.fire({
+        icon: "error",
+        title: error,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setUsername("");
+          setPassword("");
+        }
+      });
+    }
+  }, [error]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -27,8 +45,6 @@ const Login = ({ history }) => {
   return (
     <div className="base-container">
       <div className="header">Login</div>
-      {error && <h1>{error}</h1>}
-      {loading && <h1>Loading...</h1>}
       <div className="content">
         <div className="image">
           <img src={loginImg} alt="login" />

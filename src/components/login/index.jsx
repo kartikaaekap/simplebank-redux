@@ -50,11 +50,7 @@ class AuthPage extends React.Component {
             )}
             {!isLogginActive && (
               <Register
-                setLogginActive={() => {
-                  this.setState((prevState) => ({
-                    isLogginActive: !prevState.isLogginActive,
-                  }));
-                }}
+                setLogginActive={this.changeState.bind(this)}
                 containerRef={(ref) => (this.current = ref)}
               />
             )}
