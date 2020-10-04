@@ -8,10 +8,10 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
 });
 
-const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+const userInfoFromStorage = localStorage.getItem('token') ? localStorage.getItem('token') : null;
 
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage }
+  userLogin: { token: userInfoFromStorage }
 };
 
 const middleware = [thunk];

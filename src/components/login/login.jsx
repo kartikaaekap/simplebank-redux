@@ -15,13 +15,13 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { loading, error, token } = userLogin;
 
   useEffect(() => {
-    if (userInfo) {
+    if (token) {
       history.push("/transactions");
     }
-  }, [history, userInfo]);
+  }, [history, token]);
 
   const submitHandler = (e) => {
     e.preventDefault();

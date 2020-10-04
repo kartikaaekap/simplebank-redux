@@ -19,6 +19,7 @@ const App = () => {
   // }
 
   // const { loggedIn } = this.state;
+
   return (
     <Router>
       <Switch>

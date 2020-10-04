@@ -20,14 +20,16 @@ export const login = (username, password) => async (dispatch) => {
       },
     };
 
-    const { data } = axios.post("/login", { username, password }, config);
+    const { data } = await axios.post("/api/v1/login", { username, password }, config);
+
+    console.log(data);
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data,
+      payload: data.data.token,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem("token", data.data.token);
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -61,7 +63,7 @@ export const register = (name, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem("token", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
