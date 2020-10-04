@@ -8,10 +8,6 @@ const Login = ({ history }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // const openTransactionPage = () => {
-  //   this.props.history.push("/transactions");
-  // };
-
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -60,7 +56,7 @@ const Login = ({ history }) => {
           </Form.Group>
           <div className="footer">
             <Button type="submit" variant="default" className="btn">
-              {/* <Link to="/transactions">Login</Link> */} Login
+              Login
             </Button>
           </div>
         </Form>

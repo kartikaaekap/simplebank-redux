@@ -19,7 +19,9 @@
     "react-tabs": "^3.1.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sweetalert2": "^10.3.5",
+    "sweetalert2-react-content": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

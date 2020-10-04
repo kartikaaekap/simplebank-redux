@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { register } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
 
-const Register = ({ history }) => {
+const MySwal = withReactContent(Swal);
+
+const Register = ({ setLogginActive }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // const openTransactionPage = () => {
@@ -14,13 +18,21 @@ const Register = ({ history }) => {
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister;
+  const { loading, error, status } = userRegister;
 
   useEffect(() => {
-    if (userInfo) {
-      history.push("/transactions");
+    if (status === "success") {
+      MySwal.fire({
+        title: "Sukses",
+        icon: "success",
+        text: "Register berhasil. Silakan Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setLogginActive();
+        }
+      });
     }
-  }, [history, userInfo]);
+  }, [status, setLogginActive]);
 
   const submitHandler = (e) => {
     e.preventDefault();

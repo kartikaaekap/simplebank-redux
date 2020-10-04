@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -51,19 +52,19 @@ export const register = (name, password) => async (dispatch) => {
       },
     };
 
-    const { data } = axios.post("/register", { name, password }, config);
+    const { data } = await axios.post("/api/v1/account/add", { name, password }, config);
+    console.log(data)
 
     dispatch({
       type: USER_REGISTER_SUCCESS,
-      payload: data,
+      payload: data.status,
     });
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data,
+      payload: data.status,
     });
 
-    localStorage.setItem("token", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
