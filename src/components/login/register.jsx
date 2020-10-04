@@ -1,54 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form } from "react-bootstrap";
+import { register } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
-import axios from "axios";
-import { withRouter } from "react-router-dom";
 
-const Register = () => {
-  const openTransactionPage = () => {
-    // this.props.history.push("/transactions");
+const Register = ({ history }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const openTransactionPage = () => {
+  // this.props.history.push("/transactions");
+  // };
+
+  const dispatch = useDispatch();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/transactions");
+    }
+  }, [history, userInfo]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(register(username, password));
   };
 
   return (
     <div className="base-container">
       <div className="header">Register</div>
+      {error && <h1>{error}</h1>}
+      {loading && <h1>Loading...</h1>}
       <div className="content">
         <div className="image">
           <img src={loginImg} alt="login" />
         </div>
-        <div className="form" onSubmit={(e) => login(e)}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input type="text" name="name" placeholder="name" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" placeholder="password" />
-          </div>
+        <Form className="form" onSubmit={submitHandler}>
+          <Form.Group controlId="username" className="form-group">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              name="name"
+              placeholder="name"
+            />
+          </Form.Group>
+          <Form.Group controlId="password" className="form-group">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              placeholder="password"
+            />
+          </Form.Group>
           <div className="footer">
-            <button type="button" className="btn" onClick={openTransactionPage}>
+            <Button type="submit" variant="default" className="btn">
               {/* <Link to="/transactions">Login</Link> */} Register
-            </button>
+            </Button>
           </div>
-        </div>
+        </Form>
       </div>
     </div>
   );
 };
 
-function login(e) {
-  e.preventDefault();
-  let request = {
-    name: document.getElementById("name").value,
-    password: document.getElementById("password").value,
-  };
-  axios
-    .post("localhost:8080/api/v1/account/add", request)
-    .then((resp) => {
-      alert(resp.data.message);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+// function login(e) {
+//   e.preventDefault();
+//   let request = {
+//     name: document.getElementById("name").value,
+//     password: document.getElementById("password").value,
+//   };
+//   axios
+//     .post("localhost:8080/api/v1/account/add", request)
+//     .then((resp) => {
+//       alert(resp.data.message);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
 
-export default withRouter(Register);
+export default Register;
