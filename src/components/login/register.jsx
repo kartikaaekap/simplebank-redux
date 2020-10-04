@@ -12,9 +12,6 @@ const MySwal = withReactContent(Swal);
 const Register = ({ setLogginActive }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const openTransactionPage = () => {
-  // this.props.history.push("/transactions");
-  // };
 
   const dispatch = useDispatch();
 
@@ -93,21 +90,5 @@ const Register = ({ setLogginActive }) => {
     </div>
   );
 };
-
-// function login(e) {
-//   e.preventDefault();
-//   let request = {
-//     name: document.getElementById("name").value,
-//     password: document.getElementById("password").value,
-//   };
-//   axios
-//     .post("localhost:8080/api/v1/account/add", request)
-//     .then((resp) => {
-//       alert(resp.data.message);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }
 
 export default Register;
