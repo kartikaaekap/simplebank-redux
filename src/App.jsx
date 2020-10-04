@@ -21,14 +21,24 @@ const App = () => {
 
   // const { loggedIn } = this.state;
 
+  const isAuthenticated = localStorage.getItem("token");
+
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {false ? <Redirect to="/transactions" /> : <Redirect to="/login" />}
+          {isAuthenticated ? (
+            <Redirect to="/transactions" />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
         <Route exact path="/login" component={AuthPage}></Route>
-        <ProtectedRoute exact path="/transactions" component={Transaction}></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/transactions"
+          component={Transaction}
+        ></ProtectedRoute>
       </Switch>
     </Router>
   );
