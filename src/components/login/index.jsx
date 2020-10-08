@@ -1,8 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
-import Login from './login'
-import Register from './register'
+import Login from "./login";
+import Register from "./register";
 
 import "../../App.scss";
 import "./style.scss";
@@ -11,7 +10,7 @@ class AuthPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogginActive: true
+      isLogginActive: true,
     };
   }
 
@@ -29,8 +28,9 @@ class AuthPage extends React.Component {
       this.rightSide.classList.remove("left");
       this.rightSide.classList.add("right");
     }
-    this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
-    
+    this.setState((prevState) => ({
+      isLogginActive: !prevState.isLogginActive,
+    }));
   }
 
   render() {
@@ -40,29 +40,34 @@ class AuthPage extends React.Component {
     return (
       <div className="App">
         <div className="login">
-          <div className="container" ref={ref => (this.container = ref)}>
+          <div className="container" ref={(ref) => (this.container = ref)}>
             {isLogginActive && (
-              <Login containerRef={ref => (this.current = ref)} />
+              <Login
+                containerRef={(ref) => (this.current = ref)}
+                history={this.props.history}
+              />
             )}
             {!isLogginActive && (
-              <Register containerRef={ref => (this.current = ref)} />
+              <Register
+                setLogginActive={this.changeState.bind(this)}
+                containerRef={(ref) => (this.current = ref)}
+              />
             )}
           </div>
           <RightSide
             current={current}
             currentActive={currentActive}
-            containerRef={ref => (this.rightSide = ref)}
+            containerRef={(ref) => (this.rightSide = ref)}
             onClick={this.changeState.bind(this)}
           />
         </div>
-        <div>
-    </div>
+        <div></div>
       </div>
     );
   }
 }
 
-const RightSide = props => {
+const RightSide = (props) => {
   return (
     <div
       className="right-side"
