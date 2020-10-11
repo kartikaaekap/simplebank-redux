@@ -1,10 +1,11 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { Navbar, Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Form, Button, Row, Col, Dropdown } from "react-bootstrap";
 import logoImg from "../../assets/simplebank.png";
 import userImg from "../../assets/user.png";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../transactions/style.scss"
 
 class Transactions extends React.Component {
   render() {
@@ -23,6 +24,24 @@ class Transactions extends React.Component {
                 />
               </Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
+                <Dropdown id="dropdown-basic">
+                  <Navbar.Brand>
+                    <Dropdown.Toggle className="customDropdown">
+                    <img
+                      src={userImg}
+                      width="30"
+                      height="30"
+                      className="d-inline-block align-top"
+                      alt="user"
+                    />
+                    </Dropdown.Toggle>
+                  </Navbar.Brand>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Navbar.Collapse>
+              {/* <Navbar.Collapse className="justify-content-end">
                 <Navbar.Brand>
                   <img
                     src={userImg}
@@ -32,7 +51,7 @@ class Transactions extends React.Component {
                     alt="user"
                   />
                 </Navbar.Brand>
-              </Navbar.Collapse>
+              </Navbar.Collapse> */}
             </Navbar.Collapse>
           </Navbar>
           <TabList>
