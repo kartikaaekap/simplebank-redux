@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import "./App.scss";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -12,22 +13,14 @@ import AuthPage from "./components/login";
 import Transaction from "./components/transactions";
 
 const App = () => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     loggedIn: false
-  //   }
-  // }
-
-  // const { loggedIn } = this.state;
-
-  const isAuthenticated = localStorage.getItem("token");
+  const userLogin = useSelector(state => state.userLogin);
+  const { token } = userLogin;
 
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {isAuthenticated ? (
+          {!!token ? (
             <Redirect to="/transactions" />
           ) : (
             <Redirect to="/login" />
