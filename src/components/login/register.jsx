@@ -10,7 +10,7 @@ import { DELETE_REGISTER_STATUS } from "../../constants/userConstants";
 const MySwal = withReactContent(Swal);
 
 const Register = ({ setLogginActive }) => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const Register = ({ setLogginActive }) => {
         title: error,
       }).then((result) => {
         if (result.isConfirmed) {
-          setUsername("");
+          setName("");
           setPassword("");
         }
       });
@@ -49,7 +49,7 @@ const Register = ({ setLogginActive }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(register(username, password));
+    dispatch(register(name, password));
   };
 
   return (
@@ -63,8 +63,9 @@ const Register = ({ setLogginActive }) => {
           <Form.Group controlId="username" className="form-group">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              required
+              onChange={(e) => setName(e.target.value)}
               type="text"
               name="name"
               placeholder="name"
@@ -74,6 +75,7 @@ const Register = ({ setLogginActive }) => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               name="password"
