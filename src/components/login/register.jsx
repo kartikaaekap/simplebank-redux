@@ -5,12 +5,12 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { register } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
-import { DELETE_REGISTER_STATUS } from "../../constants/userConstants";
+import { USER_REGISTER_STATUS_RESET } from "../../constants/userConstants";
 
 const MySwal = withReactContent(Swal);
 
 const Register = ({ setLogginActive }) => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Register = ({ setLogginActive }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           setLogginActive();
-          dispatch({ type: DELETE_REGISTER_STATUS });
+          dispatch({ type: USER_REGISTER_STATUS_RESET });
         }
       });
     }
@@ -40,7 +40,7 @@ const Register = ({ setLogginActive }) => {
         title: error,
       }).then((result) => {
         if (result.isConfirmed) {
-          setUsername("");
+          setName("");
           setPassword("");
         }
       });
@@ -49,7 +49,7 @@ const Register = ({ setLogginActive }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(register(username, password));
+    dispatch(register(name, password));
   };
 
   return (
@@ -63,8 +63,9 @@ const Register = ({ setLogginActive }) => {
           <Form.Group controlId="username" className="form-group">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              required
+              onChange={(e) => setName(e.target.value)}
               type="text"
               name="name"
               placeholder="name"
@@ -74,6 +75,7 @@ const Register = ({ setLogginActive }) => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               name="password"
@@ -82,7 +84,7 @@ const Register = ({ setLogginActive }) => {
           </Form.Group>
           <div className="footer">
             <Button type="submit" variant="default" className="btn">
-              {/* <Link to="/transactions">Login</Link> */} Register
+              Register
             </Button>
           </div>
         </Form>
