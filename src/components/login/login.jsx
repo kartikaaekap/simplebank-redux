@@ -24,7 +24,7 @@ const Login = ({ history }) => {
   }, [history, token]);
 
   useEffect(() => {
-    if (error !== undefined) {
+    if (error && error !== undefined) {
       MySwal.fire({
         icon: "error",
         title: error,

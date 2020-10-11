@@ -6,7 +6,7 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
-  DELETE_REGISTER_STATUS,
+  USER_REGISTER_STATUS_RESET,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -32,7 +32,7 @@ export const userRegisterReducer = (state = {}, action) => {
       return { loading: false, status: action.payload };
     case USER_REGISTER_FAIL:
       return { loading: false, status: action.payload };
-    case DELETE_REGISTER_STATUS:
+    case USER_REGISTER_STATUS_RESET:
       return { loading: false, status: null };
     default:
       return state;

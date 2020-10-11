@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { register } from "../../actions/userActions";
 import loginImg from "../../assets/login.svg";
-import { DELETE_REGISTER_STATUS } from "../../constants/userConstants";
+import { USER_REGISTER_STATUS_RESET } from "../../constants/userConstants";
 
 const MySwal = withReactContent(Swal);
 
@@ -27,7 +27,7 @@ const Register = ({ setLogginActive }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           setLogginActive();
-          dispatch({ type: DELETE_REGISTER_STATUS });
+          dispatch({ type: USER_REGISTER_STATUS_RESET });
         }
       });
     }

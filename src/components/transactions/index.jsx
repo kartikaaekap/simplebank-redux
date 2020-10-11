@@ -39,7 +39,7 @@ const Transactions = ({ history }) => {
                   className="d-inline-block align-top"
                   alt="user"
                 />
-                <Button variant="danger" style={{margin: '0 0 0 20px'}} onClick={logoutHandler}>Logout</Button>
+                <Button variant="danger" className="btn-sm" style={{margin: '0 0 1px 20px'}} onClick={logoutHandler}>Logout</Button>
               </Navbar.Brand>
             </Navbar.Collapse>
           </Navbar.Collapse>
