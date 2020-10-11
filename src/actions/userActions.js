@@ -3,12 +3,13 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
 } from "../constants/userConstants";
 
-export const login = (username, password) => async (dispatch) => {
+export const login = (name, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -20,9 +21,7 @@ export const login = (username, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post("/api/v1/login", { username, password }, config);
-
-    console.log(data);
+    const { data } = await axios.post("/api/v1/login", { name, password }, config);
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
@@ -52,7 +51,6 @@ export const register = (name, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post("/api/v1/account/add", { name, password }, config);
-    console.log(data)
 
     dispatch({
       type: USER_REGISTER_SUCCESS,
@@ -67,3 +65,10 @@ export const register = (name, password) => async (dispatch) => {
     });
   }
 };
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem('token');
+  dispatch({
+    type: USER_LOGOUT,
+  })
+}

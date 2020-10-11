@@ -9,7 +9,7 @@ import loginImg from "../../assets/login.svg";
 const MySwal = withReactContent(Swal);
 
 const Login = ({ history }) => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -24,13 +24,13 @@ const Login = ({ history }) => {
   }, [history, token]);
 
   useEffect(() => {
-    if (error !== undefined) {
+    if (error && error !== undefined) {
       MySwal.fire({
         icon: "error",
         title: error,
       }).then((result) => {
         if (result.isConfirmed) {
-          setUsername("");
+          setName("");
           setPassword("");
         }
       });
@@ -39,7 +39,7 @@ const Login = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(username, password));
+    dispatch(login(name, password));
   };
 
   return (
@@ -50,24 +50,26 @@ const Login = ({ history }) => {
           <img src={loginImg} alt="login" />
         </div>
         <Form onSubmit={submitHandler} className="form">
-          <Form.Group controlId="username" className="form-group">
-            <Form.Label>Username</Form.Label>
+          <Form.Group controlId="name" className="form-group">
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              required
+              onChange={(e) => setName(e.target.value)}
               type="text"
-              name="username"
-              placeholder="username"
+              name="name"
+              placeholder="name"
             />
           </Form.Group>
           <Form.Group controlId="password" className="form-group">
             <Form.Label>Password</Form.Label>
             <Form.Control
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="password"
             />
           </Form.Group>
           <div className="footer">
