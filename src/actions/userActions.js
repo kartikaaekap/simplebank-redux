@@ -23,8 +23,6 @@ export const login = (name, password) => async (dispatch) => {
 
     const { data } = await axios.post("/api/v1/login", { name, password }, config);
 
-    console.log(data);
-
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data.data.token,
@@ -53,7 +51,6 @@ export const register = (name, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post("/api/v1/account/add", { name, password }, config);
-    console.log(data)
 
     dispatch({
       type: USER_REGISTER_SUCCESS,

@@ -84,7 +84,7 @@ const Register = ({ setLogginActive }) => {
           </Form.Group>
           <div className="footer">
             <Button type="submit" variant="default" className="btn">
-              {/* <Link to="/transactions">Login</Link> */} Register
+              Register
             </Button>
           </div>
         </Form>
