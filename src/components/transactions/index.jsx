@@ -13,9 +13,6 @@ import { deposit, withdrawal, transfer, saldo } from '../../actions/transactionA
 const Transactions = ({ history }) => {
   const dispatch = useDispatch();
 
-  const transactionSaldo = useSelector((state) => state.transactionSaldo)
-  const { saldoTotal } = transactionSaldo
-
   const logoutHandler = () => {
     dispatch(logout());
     history.push('/login');
@@ -52,6 +49,9 @@ const Transactions = ({ history }) => {
     } 
   }, [dispatch, history, token])
 
+  const transactionSaldo = useSelector((state) => state.transactionSaldo)
+  const { saldoTotal } = transactionSaldo
+
   const submitDepositHandler = (e) => {
     e.preventDefault();
     dispatch(deposit(accountDeposit, amountDeposit, descDeposit));
@@ -65,219 +65,219 @@ const Transactions = ({ history }) => {
     dispatch(transfer(accountTransfer, amountTransfer, descTransfer));
   };
   
-    return (
-      <Container>
-        <Tabs>
-          <Navbar bg="light">
-            <Navbar.Collapse>
-              <Navbar.Brand>
-                <img
-                  src={logoImg}
-                  width="200"
-                  height="100"
-                  className="d-inline-block align-top"
-                  alt="logo"
-                />
-              </Navbar.Brand>
-              <Navbar.Collapse className="justify-content-end">
-                <Dropdown id="dropdown-basic">
-                  <Navbar.Brand>
-                    <Dropdown.Toggle className="customDropdown">
-                    <img
-                      src={userImg}
-                      width="30"
-                      height="30"
-                      className="d-inline-block align-top"
-                      alt="user"
-                    />
-                    </Dropdown.Toggle>
-                  </Navbar.Brand>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Navbar.Collapse>
+  return (
+    <Container>
+      <Tabs>
+        <Navbar bg="light">
+          <Navbar.Collapse>
+            <Navbar.Brand>
+              <img
+                src={logoImg}
+                width="200"
+                height="100"
+                className="d-inline-block align-top"
+                alt="logo"
+              />
+            </Navbar.Brand>
+            <Navbar.Collapse className="justify-content-end">
+              <Dropdown id="dropdown-basic">
+                <Navbar.Brand>
+                  <Dropdown.Toggle className="customDropdown">
+                  <img
+                    src={userImg}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    alt="user"
+                  />
+                  </Dropdown.Toggle>
+                </Navbar.Brand>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Navbar.Collapse>
-          </Navbar>
-          <TabList>
-            <Tab>Deposit</Tab>
-            <Tab>Withdraw</Tab>
-            <Tab>Transfer</Tab>
-            <Tab>Mutasi Rekening</Tab>
-          </TabList>
-          <TabPanel>
-            <div className="d-flex justify-content-center my-4">
-              <h1>DEPOSIT</h1>
-            </div>
-            <div className="mb-5">
-              <h4>Total Saldo : {saldoTotal.account} </h4>
-            </div>
-            <Form onSubmit={submitDepositHandler} className="mt-3">
-              <Form.Group as={Row} controlId="formPlaintextAccount">
-                <Form.Label column sm="2">
-                  Account Number
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control
-                    type="account"
-                    value={accountDeposit}
-                    onChange={(e) => setAccountDeposit(e.target.value)}
-                    placeholder="Input the destination account number"
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} controlId="formPlaintextAmount">
-                <Form.Label column sm="2">
-                  Total Amount
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    type="amount" 
-                    value={amountDeposit}
-                    onChange={(e) => setAmountDeposit(e.target.value)}
-                    placeholder="Input the amount" />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} controlId="exampleForm.ControlTextareaDesc">
-                <Form.Label column sm="2">
-                  Description
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    as="textarea" 
-                    rows={3} 
-                    value={descDeposit}
-                    onChange={(e) => setDescDeposit(e.target.value)}
-                  />
-                </Col>
-              </Form.Group>
-              <Col sm={{ span: 10, offset: 11 }}>
-                <Button variant="danger" type="submit">
-                  Send
-                </Button>
+          </Navbar.Collapse>
+        </Navbar>
+        <TabList>
+          <Tab>Deposit</Tab>
+          <Tab>Withdraw</Tab>
+          <Tab>Transfer</Tab>
+          <Tab>Mutasi Rekening</Tab>
+        </TabList>
+        <TabPanel>
+          <div className="d-flex justify-content-center my-4">
+            <h1>DEPOSIT</h1>
+          </div>
+          <div className="mb-5">
+            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
+          </div>
+          <Form onSubmit={submitDepositHandler} className="mt-3">
+            <Form.Group as={Row} controlId="formPlaintextAccount">
+              <Form.Label column sm="2">
+                Account Number
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="account"
+                  value={accountDeposit}
+                  onChange={(e) => setAccountDeposit(e.target.value)}
+                  placeholder="Input the destination account number"
+                />
               </Col>
-            </Form>
-          </TabPanel>
-          <TabPanel>
-            <div className="d-flex justify-content-center my-4">
-              <h1>WITHDRAWAL</h1>
-            </div>
-            {/* <div className="mb-5">
-              <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-            </div> */}
-            <Form onSubmit={submitWithdrawalHandler} className="mt-3">
-              <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
-                <Form.Label column sm="2">
-                  Account Number
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control
-                    type="account"
-                    value={accountWithdrawal}
-                    onChange={(e) => setAccountWithdrawal(e.target.value)}
-                    placeholder="Input the destination account number"
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} controlId="formPlaintextAmountWithdraw">
-                <Form.Label column sm="2">
-                  Total Amount
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    type="amount" 
-                    placeholder="Input the amount" 
-                    value={amountWithdrawal}
-                    onChange={(e) => setAmountWithdrawal(e.target.value)}
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group
-                as={Row}
-                controlId="exampleForm.ControlTextareaDescWithdraw"
-              >
-                <Form.Label column sm="2">
-                  Description
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    as="textarea" 
-                    rows={3} 
-                    value={descWithdrawal}
-                    onChange={(e) => setDescWithdrawal(e.target.value)}
-                  />
-                </Col>
-              </Form.Group>
-              <Col sm={{ span: 10, offset: 11 }}>
-                <Button variant="danger" type="submit">
-                  Withdraw
-                </Button>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formPlaintextAmount">
+              <Form.Label column sm="2">
+                Total Amount
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  type="amount" 
+                  value={amountDeposit}
+                  onChange={(e) => setAmountDeposit(e.target.value)}
+                  placeholder="Input the amount" />
               </Col>
-            </Form>
-          </TabPanel>
-          <TabPanel>
-            <div className="d-flex justify-content-center my-4">
-              <h1>TRANSFER</h1>
-            </div>
-            {/* <div className="mb-5">
-              <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-            </div> */}
-            <Form onSubmit={submitTransferHandler} className="mt-3">
-              <Form.Group as={Row} controlId="formPlaintextRecepient">
-                <Form.Label column sm="2">
-                  Recepient
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control
-                    type="account"
-                    value={accountTransfer}
-                    onChange={(e) => setAccountTransfer(e.target.value)}
-                    placeholder="Input the Recepient "
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} controlId="formPlaintextAmountTransfer">
-                <Form.Label column sm="2">
-                  Total Amount
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    type="amount" 
-                    placeholder="Input the amount" 
-                    value={amountTransfer}
-                    onChange={(e) => setAmountTransfer(e.target.value)}
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group
-                as={Row}
-                controlId="exampleForm.ControlTextareaDescTransfer"
-              >
-                <Form.Label column sm="2">
-                  Description
-                </Form.Label>
-                <Col sm="10">
-                  <Form.Control 
-                    as="textarea" 
-                    rows={3} 
-                    value={descTransfer}
-                    onChange={(e) => setDescTransfer(e.target.value)}
-                    />
-                </Col>
-              </Form.Group>
-              <Col sm={{ span: 10, offset: 11 }}>
-                <Button variant="danger" type="submit">
-                  Transfer
-                </Button>
+            </Form.Group>
+            <Form.Group as={Row} controlId="exampleForm.ControlTextareaDesc">
+              <Form.Label column sm="2">
+                Description
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  as="textarea" 
+                  rows={3} 
+                  value={descDeposit}
+                  onChange={(e) => setDescDeposit(e.target.value)}
+                />
               </Col>
-            </Form>
-          </TabPanel>
-          <TabPanel>
-            {/* isi code mutasi rekening disini */}
-          </TabPanel>
-        </Tabs>
-      </Container>
-    );
+            </Form.Group>
+            <Col sm={{ span: 10, offset: 11 }}>
+              <Button variant="danger" type="submit">
+                Send
+              </Button>
+            </Col>
+          </Form>
+        </TabPanel>
+        <TabPanel>
+          <div className="d-flex justify-content-center my-4">
+            <h1>WITHDRAWAL</h1>
+          </div>
+          {/* <div className="mb-5">
+            <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
+          </div> */}
+          <Form onSubmit={submitWithdrawalHandler} className="mt-3">
+            <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
+              <Form.Label column sm="2">
+                Account Number
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="account"
+                  value={accountWithdrawal}
+                  onChange={(e) => setAccountWithdrawal(e.target.value)}
+                  placeholder="Input the destination account number"
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formPlaintextAmountWithdraw">
+              <Form.Label column sm="2">
+                Total Amount
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  type="amount" 
+                  placeholder="Input the amount" 
+                  value={amountWithdrawal}
+                  onChange={(e) => setAmountWithdrawal(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              controlId="exampleForm.ControlTextareaDescWithdraw"
+            >
+              <Form.Label column sm="2">
+                Description
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  as="textarea" 
+                  rows={3} 
+                  value={descWithdrawal}
+                  onChange={(e) => setDescWithdrawal(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+            <Col sm={{ span: 10, offset: 11 }}>
+              <Button variant="danger" type="submit">
+                Withdraw
+              </Button>
+            </Col>
+          </Form>
+        </TabPanel>
+        <TabPanel>
+          <div className="d-flex justify-content-center my-4">
+            <h1>TRANSFER</h1>
+          </div>
+          {/* <div className="mb-5">
+            <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
+          </div> */}
+          <Form onSubmit={submitTransferHandler} className="mt-3">
+            <Form.Group as={Row} controlId="formPlaintextRecepient">
+              <Form.Label column sm="2">
+                Recepient
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="account"
+                  value={accountTransfer}
+                  onChange={(e) => setAccountTransfer(e.target.value)}
+                  placeholder="Input the Recepient "
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formPlaintextAmountTransfer">
+              <Form.Label column sm="2">
+                Total Amount
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  type="amount" 
+                  placeholder="Input the amount" 
+                  value={amountTransfer}
+                  onChange={(e) => setAmountTransfer(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              as={Row}
+              controlId="exampleForm.ControlTextareaDescTransfer"
+            >
+              <Form.Label column sm="2">
+                Description
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control 
+                  as="textarea" 
+                  rows={3} 
+                  value={descTransfer}
+                  onChange={(e) => setDescTransfer(e.target.value)}
+                  />
+              </Col>
+            </Form.Group>
+            <Col sm={{ span: 10, offset: 11 }}>
+              <Button variant="danger" type="submit">
+                Transfer
+              </Button>
+            </Col>
+          </Form>
+        </TabPanel>
+        <TabPanel>
+          {/* isi code mutasi rekening disini */}
+        </TabPanel>
+      </Tabs>
+    </Container>
+  );
   // return (
   //   <div>
 
