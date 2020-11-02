@@ -61,7 +61,7 @@ import {
     }
   };
 
-  export const transactionSaldoReducer = (state = { saldoTotal: [] }, action) => {
+  export const transactionSaldoReducer = (state = { saldoTotal: {} }, action) => {
     switch (action.type) {
       case TRANSACTION_SALDO_REQUEST:
         return {
