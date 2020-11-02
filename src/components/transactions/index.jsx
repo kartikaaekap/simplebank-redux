@@ -110,7 +110,7 @@ const Transactions = ({ history }) => {
               <h1>DEPOSIT</h1>
             </div>
             <div className="mb-5">
-              <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
+              <h4>Total Saldo : {saldoTotal.account} </h4>
             </div>
             <Form onSubmit={submitDepositHandler} className="mt-3">
               <Form.Group as={Row} controlId="formPlaintextAccount">
@@ -162,9 +162,9 @@ const Transactions = ({ history }) => {
             <div className="d-flex justify-content-center my-4">
               <h1>WITHDRAWAL</h1>
             </div>
-            <div className="mb-5">
+            {/* <div className="mb-5">
               <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-            </div>
+            </div> */}
             <Form onSubmit={submitWithdrawalHandler} className="mt-3">
               <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
                 <Form.Label column sm="2">
@@ -219,9 +219,9 @@ const Transactions = ({ history }) => {
             <div className="d-flex justify-content-center my-4">
               <h1>TRANSFER</h1>
             </div>
-            <div className="mb-5">
+            {/* <div className="mb-5">
               <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-            </div>
+            </div> */}
             <Form onSubmit={submitTransferHandler} className="mt-3">
               <Form.Group as={Row} controlId="formPlaintextRecepient">
                 <Form.Label column sm="2">
