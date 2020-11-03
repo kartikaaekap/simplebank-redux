@@ -16,40 +16,48 @@ import {
   import { logout } from './userActions'
 
 export const deposit = (accountDeposit, amountDeposit, descDeposit) => async (dispatch, getState) => {
-    try {
-        dispatch({
-            type: TRANSACTION_DEPOSIT_REQUEST,
-        })
+  try {
+      dispatch({
+          type: TRANSACTION_DEPOSIT_REQUEST,
+      })
 
-        const {
-            userLogin: { token },
-        } = getState()
+      const {
+          userLogin: { token },
+      } = getState()
 
-        const config = {
-            headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`,
-            },
-        };
-        console.log(token)
-        const { data : {data} } = await axios.post("/api/v1/deposit", { accountDeposit, amountDeposit, descDeposit }, config)
-        dispatch({
-            type: TRANSACTION_DEPOSIT_SUCCESS,
-            payload: data,
-        })
-    } catch (error) {
-        const message =
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-        if (message === 'Not authorized, token failed') {
-          dispatch(logout())
-        }
-        dispatch({
-          type: TRANSACTION_DEPOSIT_FAIL,
-          payload: message,
-        })
-    }
+      const config = {
+          headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+          },
+      };
+      const { data : {data} } = await axios.post("/api/v1/deposit", {
+        transaction_type: 1,
+        transaction_description: descDeposit,
+        sender: parseInt(accountDeposit),
+        recipient: parseInt(accountDeposit),
+        timestamp: Date.now(),
+        amount: parseInt(amountDeposit)
+      }, config)
+      dispatch({
+          type: TRANSACTION_DEPOSIT_SUCCESS,
+          payload: data,
+      })
+
+      dispatch(saldo())
+  } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
+      dispatch({
+        type: TRANSACTION_DEPOSIT_FAIL,
+        payload: message,
+      })
+  }
 };
 
 export const withdrawal = (accountWithdrawal, amountWithdrawal, descWithdrawal) => async (dispatch, getState) => {

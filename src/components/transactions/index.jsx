@@ -21,7 +21,6 @@ const Transactions = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { token } = userLogin
 
-  const [accountDeposit, setAccountDeposit] = useState("");
   const [amountDeposit, setAmountDeposit] = useState("");
   const [descDeposit, setDescDeposit] = useState("");
   const [accountWithdrawal, setAccountWithdrawal] = useState("");
@@ -32,7 +31,6 @@ const Transactions = ({ history }) => {
   const [descTransfer, setDescTransfer] = useState("");
 
   useEffect(() => {
-    setAccountDeposit("");
     setAmountDeposit("");
     setDescDeposit("");
     setAccountWithdrawal("");
@@ -51,6 +49,7 @@ const Transactions = ({ history }) => {
 
   const transactionSaldo = useSelector((state) => state.transactionSaldo)
   const { saldoTotal } = transactionSaldo
+  const accountDeposit = saldoTotal?.account?.account_number
 
   const submitDepositHandler = (e) => {
     e.preventDefault();
@@ -113,7 +112,7 @@ const Transactions = ({ history }) => {
             <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
           </div>
           <Form onSubmit={submitDepositHandler} className="mt-3">
-            <Form.Group as={Row} controlId="formPlaintextAccount">
+            {/* <Form.Group as={Row} controlId="formPlaintextAccount">
               <Form.Label column sm="2">
                 Account Number
               </Form.Label>
@@ -125,7 +124,7 @@ const Transactions = ({ history }) => {
                   placeholder="Input the destination account number"
                 />
               </Col>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group as={Row} controlId="formPlaintextAmount">
               <Form.Label column sm="2">
                 Total Amount
