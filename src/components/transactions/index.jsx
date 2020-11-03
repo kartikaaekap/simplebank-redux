@@ -23,7 +23,6 @@ const Transactions = ({ history }) => {
 
   const [amountDeposit, setAmountDeposit] = useState("");
   const [descDeposit, setDescDeposit] = useState("");
-  const [accountWithdrawal, setAccountWithdrawal] = useState("");
   const [amountWithdrawal, setAmountWithdrawal] = useState("");
   const [descWithdrawal, setDescWithdrawal] = useState("");
   const [accountTransfer, setAccountTransfer] = useState("");
@@ -33,7 +32,6 @@ const Transactions = ({ history }) => {
   useEffect(() => {
     setAmountDeposit("");
     setDescDeposit("");
-    setAccountWithdrawal("");
     setAmountWithdrawal("");
     setDescWithdrawal("");
     setAccountTransfer("");
@@ -50,18 +48,23 @@ const Transactions = ({ history }) => {
   const transactionSaldo = useSelector((state) => state.transactionSaldo)
   const { saldoTotal } = transactionSaldo
   const accountDeposit = saldoTotal?.account?.account_number
+  const accountWithdrawal = saldoTotal?.account?.account_number
+  const accountTransferSender = saldoTotal?.account?.account_number
 
   const submitDepositHandler = (e) => {
     e.preventDefault();
     dispatch(deposit(accountDeposit, amountDeposit, descDeposit));
+    dispatch(saldo)
   };
   const submitWithdrawalHandler = (e) => {
     e.preventDefault();
     dispatch(withdrawal(accountWithdrawal, amountWithdrawal, descWithdrawal));
+    dispatch(saldo)
   };
   const submitTransferHandler = (e) => {
     e.preventDefault();
-    dispatch(transfer(accountTransfer, amountTransfer, descTransfer));
+    dispatch(transfer(accountTransfer, accountTransferSender, amountTransfer, descTransfer));
+    dispatch(saldo)
   };
   
   return (
@@ -161,11 +164,11 @@ const Transactions = ({ history }) => {
           <div className="d-flex justify-content-center my-4">
             <h1>WITHDRAWAL</h1>
           </div>
-          {/* <div className="mb-5">
-            <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-          </div> */}
+          <div className="mb-5">
+            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
+          </div>
           <Form onSubmit={submitWithdrawalHandler} className="mt-3">
-            <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
+            {/* <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
               <Form.Label column sm="2">
                 Account Number
               </Form.Label>
@@ -177,7 +180,7 @@ const Transactions = ({ history }) => {
                   placeholder="Input the destination account number"
                 />
               </Col>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group as={Row} controlId="formPlaintextAmountWithdraw">
               <Form.Label column sm="2">
                 Total Amount
@@ -218,9 +221,9 @@ const Transactions = ({ history }) => {
           <div className="d-flex justify-content-center my-4">
             <h1>TRANSFER</h1>
           </div>
-          {/* <div className="mb-5">
-            <h4>Total Saldo : {saldoTotal.account.saldo} </h4>
-          </div> */}
+          <div className="mb-5">
+            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
+          </div>
           <Form onSubmit={submitTransferHandler} className="mt-3">
             <Form.Group as={Row} controlId="formPlaintextRecepient">
               <Form.Label column sm="2">
@@ -231,7 +234,7 @@ const Transactions = ({ history }) => {
                   type="account"
                   value={accountTransfer}
                   onChange={(e) => setAccountTransfer(e.target.value)}
-                  placeholder="Input the Recepient "
+                  placeholder="Input the Recepient Account Number "
                 />
               </Col>
             </Form.Group>

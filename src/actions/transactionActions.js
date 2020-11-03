@@ -76,11 +76,19 @@ export const withdrawal = (accountWithdrawal, amountWithdrawal, descWithdrawal) 
             Authorization: `${token}`,
             },
         };
-        const { data: {data} } = await axios.post("/api/v1/withdraw", { accountWithdrawal, amountWithdrawal, descWithdrawal }, config);
+        const { data: {data} } = await axios.post("/api/v1/withdraw", { 
+        transaction_type: 1,
+        transaction_description: descWithdrawal,
+        sender: parseInt(accountWithdrawal),
+        recipient: parseInt(accountWithdrawal),
+        timestamp: Date.now(),
+        amount: parseInt(amountWithdrawal)
+         }, config);
         dispatch({
             type: TRANSACTION_WITHDRAWAL_SUCCESS,
             payload: data,
         })
+        dispatch(saldo())
     } catch (error) {
         const message =
           error.response && error.response.data.message
@@ -96,7 +104,7 @@ export const withdrawal = (accountWithdrawal, amountWithdrawal, descWithdrawal) 
     }
 };
 
-export const transfer = (accountTransfer, amountTransfer, descTransfer) => async (dispatch, getState) => {
+export const transfer = (accountTransfer, accountTransferSender, amountTransfer, descTransfer) => async (dispatch, getState) => {
     try {
         dispatch({
             type: TRANSACTION_TRANSFER_REQUEST,
@@ -112,11 +120,19 @@ export const transfer = (accountTransfer, amountTransfer, descTransfer) => async
             Authorization: `${token}`,
             },
         };
-        const { data: {data} } = await axios.post("/api/v1/transfer", { accountTransfer, amountTransfer, descTransfer }, config);
+        const { data: {data} } = await axios.post("/api/v1/transfer", { 
+          transaction_type: 0,
+          transaction_description: descTransfer,
+          sender: parseInt(accountTransferSender),
+          recipient: parseInt(accountTransfer),
+          timestamp: Date.now(),
+          amount: parseInt(amountTransfer)
+         }, config);
         dispatch({
             type: TRANSACTION_TRANSFER_SUCCESS,
             payload: data,
         })
+        dispatch(saldo())
     } catch (error) {
         const message =
           error.response && error.response.data.message
