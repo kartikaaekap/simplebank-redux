@@ -8,7 +8,6 @@ import userImg from "../../assets/user.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../transactions/style.scss"
 import { logout } from '../../actions/userActions';
-import { deposit, withdrawal, transfer, saldo } from '../../actions/transactionActions';
 
 const Transactions = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,55 +16,6 @@ const Transactions = ({ history }) => {
     dispatch(logout());
     history.push('/login');
   }
-
-  const userLogin = useSelector((state) => state.userLogin)
-  const { token } = userLogin
-
-  const [amountDeposit, setAmountDeposit] = useState("");
-  const [descDeposit, setDescDeposit] = useState("");
-  const [amountWithdrawal, setAmountWithdrawal] = useState("");
-  const [descWithdrawal, setDescWithdrawal] = useState("");
-  const [accountTransfer, setAccountTransfer] = useState("");
-  const [amountTransfer, setAmountTransfer] = useState("");
-  const [descTransfer, setDescTransfer] = useState("");
-
-  useEffect(() => {
-    setAmountDeposit("");
-    setDescDeposit("");
-    setAmountWithdrawal("");
-    setDescWithdrawal("");
-    setAccountTransfer("");
-    setAmountTransfer("");
-    setDescTransfer("");
-  }, [])
-
-  useEffect(() => {
-    if (token) {
-      dispatch(saldo())
-    } 
-  }, [dispatch, history, token])
-
-  const transactionSaldo = useSelector((state) => state.transactionSaldo)
-  const { saldoTotal } = transactionSaldo
-  const accountDeposit = saldoTotal?.account?.account_number
-  const accountWithdrawal = saldoTotal?.account?.account_number
-  const accountTransferSender = saldoTotal?.account?.account_number
-
-  const submitDepositHandler = (e) => {
-    e.preventDefault();
-    dispatch(deposit(accountDeposit, amountDeposit, descDeposit));
-    dispatch(saldo)
-  };
-  const submitWithdrawalHandler = (e) => {
-    e.preventDefault();
-    dispatch(withdrawal(accountWithdrawal, amountWithdrawal, descWithdrawal));
-    dispatch(saldo)
-  };
-  const submitTransferHandler = (e) => {
-    e.preventDefault();
-    dispatch(transfer(accountTransfer, accountTransferSender, amountTransfer, descTransfer));
-    dispatch(saldo)
-  };
   
   return (
     <Container>
@@ -111,23 +61,7 @@ const Transactions = ({ history }) => {
           <div className="d-flex justify-content-center my-4">
             <h1>DEPOSIT</h1>
           </div>
-          <div className="mb-5">
-            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
-          </div>
-          <Form onSubmit={submitDepositHandler} className="mt-3">
-            {/* <Form.Group as={Row} controlId="formPlaintextAccount">
-              <Form.Label column sm="2">
-                Account Number
-              </Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="account"
-                  value={accountDeposit}
-                  onChange={(e) => setAccountDeposit(e.target.value)}
-                  placeholder="Input the destination account number"
-                />
-              </Col>
-            </Form.Group> */}
+          <Form className="mt-3">
             <Form.Group as={Row} controlId="formPlaintextAmount">
               <Form.Label column sm="2">
                 Total Amount
@@ -135,8 +69,6 @@ const Transactions = ({ history }) => {
               <Col sm="10">
                 <Form.Control 
                   type="amount" 
-                  value={amountDeposit}
-                  onChange={(e) => setAmountDeposit(e.target.value)}
                   placeholder="Input the amount" />
               </Col>
             </Form.Group>
@@ -148,8 +80,6 @@ const Transactions = ({ history }) => {
                 <Form.Control 
                   as="textarea" 
                   rows={3} 
-                  value={descDeposit}
-                  onChange={(e) => setDescDeposit(e.target.value)}
                 />
               </Col>
             </Form.Group>
@@ -164,23 +94,7 @@ const Transactions = ({ history }) => {
           <div className="d-flex justify-content-center my-4">
             <h1>WITHDRAWAL</h1>
           </div>
-          <div className="mb-5">
-            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
-          </div>
-          <Form onSubmit={submitWithdrawalHandler} className="mt-3">
-            {/* <Form.Group as={Row} controlId="formPlaintextAccountWithdraw">
-              <Form.Label column sm="2">
-                Account Number
-              </Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="account"
-                  value={accountWithdrawal}
-                  onChange={(e) => setAccountWithdrawal(e.target.value)}
-                  placeholder="Input the destination account number"
-                />
-              </Col>
-            </Form.Group> */}
+          <Form className="mt-3">
             <Form.Group as={Row} controlId="formPlaintextAmountWithdraw">
               <Form.Label column sm="2">
                 Total Amount
@@ -189,8 +103,6 @@ const Transactions = ({ history }) => {
                 <Form.Control 
                   type="amount" 
                   placeholder="Input the amount" 
-                  value={amountWithdrawal}
-                  onChange={(e) => setAmountWithdrawal(e.target.value)}
                 />
               </Col>
             </Form.Group>
@@ -205,8 +117,6 @@ const Transactions = ({ history }) => {
                 <Form.Control 
                   as="textarea" 
                   rows={3} 
-                  value={descWithdrawal}
-                  onChange={(e) => setDescWithdrawal(e.target.value)}
                 />
               </Col>
             </Form.Group>
@@ -221,10 +131,7 @@ const Transactions = ({ history }) => {
           <div className="d-flex justify-content-center my-4">
             <h1>TRANSFER</h1>
           </div>
-          <div className="mb-5">
-            <h4>Total Saldo : {saldoTotal != null && saldoTotal.account ? saldoTotal.account.saldo : 0} </h4>
-          </div>
-          <Form onSubmit={submitTransferHandler} className="mt-3">
+          <Form className="mt-3">
             <Form.Group as={Row} controlId="formPlaintextRecepient">
               <Form.Label column sm="2">
                 Recepient
@@ -232,8 +139,6 @@ const Transactions = ({ history }) => {
               <Col sm="10">
                 <Form.Control
                   type="account"
-                  value={accountTransfer}
-                  onChange={(e) => setAccountTransfer(e.target.value)}
                   placeholder="Input the Recepient Account Number "
                 />
               </Col>
@@ -246,8 +151,6 @@ const Transactions = ({ history }) => {
                 <Form.Control 
                   type="amount" 
                   placeholder="Input the amount" 
-                  value={amountTransfer}
-                  onChange={(e) => setAmountTransfer(e.target.value)}
                 />
               </Col>
             </Form.Group>
@@ -262,8 +165,6 @@ const Transactions = ({ history }) => {
                 <Form.Control 
                   as="textarea" 
                   rows={3} 
-                  value={descTransfer}
-                  onChange={(e) => setDescTransfer(e.target.value)}
                   />
               </Col>
             </Form.Group>
@@ -280,11 +181,6 @@ const Transactions = ({ history }) => {
       </Tabs>
     </Container>
   );
-  // return (
-  //   <div>
-
-  //   </div>
-  // )
 }
 
 export default Transactions;
